@@ -27,6 +27,18 @@ public class BlackJackGameTest{
 
 
 	@Test
+
+	public void testdealerDrawCard(){
+
+		BlackJackGame game = new BlackJackGame();
+		game.dealerDrawCard();
+
+		assert (game.getDealerHand() > 0);
+
+
+	}
+
+	@Test
 	public void testDrawCard(){
 		ArrayList<Card> fakeHand = new ArrayList<Card>();
 
