@@ -95,6 +95,58 @@ public class BlackJackGameTest{
 	}
 
 	@Test
+	public void dealerHitsUnder(){
+		BlackJackGame game = new BlackJackGame();
+		game.user = new User();
+
+
+		Card card_jack = new Card(10);
+		Card card_jack_2 = new Card(10);
+
+		game.addCard(card_jack_2);
+		game.addCard(card_jack);
+
+		game.addDealerCard(new Card(6));
+		game.addDealerCard(new Card(10));
+
+
+		int winner = game.compareHands();
+
+		if(winner == 1) {
+			assert (game.getDealerHand() > 17);
+		}
+		else{
+			assert( game.getDealerHand() == 21);
+		}
+
+
+	}
+
+	@Test
+	public void dealerBust(){
+		BlackJackGame game = new BlackJackGame();
+		game.user = new User();
+
+
+		Card card_jack = new Card(10);
+		Card card_jack_2 = new Card(10);
+
+		game.addCard(card_jack_2);
+		game.addCard(card_jack);
+
+		game.addDealerCard(new Card(6));
+		game.addDealerCard(new Card(10));
+		game.addDealerCard(new Card( 6));
+
+		int winner = game.compareHands();
+
+		assert(winner == 1);
+
+
+	}
+
+
+	@Test
 	public void testDealerDraws(){
 		ArrayList<Card> fakeHand = new ArrayList<Card>();
 
