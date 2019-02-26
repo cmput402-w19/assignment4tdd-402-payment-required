@@ -9,6 +9,11 @@ import java.util.Random;
 public class Deck {
 
 
+
+
+
+
+
     private Card[] deck = new Card[52];
     private boolean[] drawn = new boolean[52];
     private int y;
@@ -17,6 +22,9 @@ public class Deck {
 
 
     public Deck(){
+
+
+
 
 
         for (int x = 0; x < 4; x++) {

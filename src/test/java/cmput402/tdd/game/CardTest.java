@@ -21,7 +21,7 @@ public class CardTest {
         Card new_card = new Card(5);
         int test_value = new_card.getCardNumber();
 
-        assert(5 == test_value);
+        assertEquals(5,test_value);
 
     }
 

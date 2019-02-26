@@ -7,16 +7,23 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class BlackJackGame extends Game{
-	ArrayList<Integer> playerHand = new ArrayList<Integer>();
+	ArrayList<Card> playerHand = new ArrayList<Card>();
+	ArrayList<Card> dealerHand = new ArrayList<Card>();
+
 	int winner = 0;
+
+	int dealerValue = 0;
+
+	Deck deck = new Deck();
 
 	public void playGame(){
 		boolean playing = true;
+		dealerDrawsHand();
 		int userSelection;
-		while(playing){	
+		while(playing){
 			String playerCardsString = "";
 			for(int i = 0; i<playerHand.size(); i++){
-				playerCardsString += playerHand.get(i) + " ";
+				playerCardsString += playerHand.get(i).getCardNumber() + " ";
 			}
 			System.out.println("Current hand:" + playerCardsString);
 			System.out.println("Total: " + getTotalHandValue());
@@ -36,7 +43,7 @@ public class BlackJackGame extends Game{
 			}
 		}
 		if(winner == 1){
-            this.winBet();
+			this.winBet();
 			System.out.println("You won!");
 		}
 		if(winner == 0){
@@ -47,52 +54,101 @@ public class BlackJackGame extends Game{
 		}
 	}
 
-	public ArrayList<Integer> getHand(){
+	public ArrayList<Card> getHand(){
 		return playerHand;
 	}
-	
+
 	public int getTotalHandValue(){
 		int totalValue = 0;
 		for(int i = 0; i < playerHand.size();i++){
-			totalValue += playerHand.get(i);
+			totalValue += playerHand.get(i).getCardNumber();
 		}
 		return totalValue;
 	}
 
-	public void addCard(int card){
+	public void addCard(Card card){
+
 		playerHand.add(card);
+
+	}
+
+	public void addDealerCard(Card card){
+		dealerHand.add(card);
 	}
 
 	public void drawCard(){
-		Random rand = new Random();
-		int newCard = rand.nextInt(10)+1; // Returns 1-10
-		playerHand.add(newCard);
+		//Random rand = new Random();
+		//int newCard = rand.nextInt(10)+1; // Returns 1-10
+		//playerHand.add(newCard);
+
+		playerHand.add(deck.drawCard());
 	}
 
+
+
 	public void resetHand(){
-		playerHand = new ArrayList<Integer>();
+		playerHand = new ArrayList<Card>();
 		drawCard();
 		drawCard();
 	}
 
 	public int getDealerHand(){
-		Random rand = new Random();
-		int totalValue = rand.nextInt(6)+15; // Returns 15-21
-		return totalValue;
+
+
+
+		dealerValue = 0;
+
+		for (Card card : dealerHand){
+			dealerValue = dealerValue + card.getCardNumber();
+
+		}
+
+		return dealerValue;
+	}
+
+
+	public void dealerDrawsHand(){
+
+
+		dealerHand.add(deck.drawCard());
+		dealerHand.add(deck.drawCard());
+
+		return;
+	}
+	public int dealerDrawCard(){
+		addDealerCard(deck.drawCard());
+
+
+		return getDealerHand();
 	}
 
 	public int compareHands(){
+
 		int totalValue = getTotalHandValue();
-		int dealerHand = getDealerHand();
+
+
+
+
+		while ((getDealerHand() < totalValue) && (totalValue < 22) && (dealerValue < 17)){
+			dealerValue = dealerDrawCard();
+
+		}
+
+		int dealerHand = dealerValue;
+
+
 		System.out.println("Your hand: " + totalValue);
 		System.out.println("Dealer's hand: " + dealerHand);
 		if(totalValue > 21){	// Bust
 			return -1;
 		}
-		if(totalValue > dealerHand){
+		else if( dealerHand > 21){
 			return 1;
 		}
-		if(totalValue < dealerHand){
+		else if(totalValue > dealerHand ){
+			return 1;
+		}
+		else if(totalValue < dealerHand){
 			return -1;
 		}
 		return 0;	//Tie
