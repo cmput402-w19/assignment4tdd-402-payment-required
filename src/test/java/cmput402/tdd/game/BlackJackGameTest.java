@@ -12,6 +12,21 @@ public class BlackJackGameTest{
 
 
 	@Test
+
+	public void testaddDealerCard(){
+		ArrayList<Card> fakeHand = new ArrayList<Card>();
+		BlackJackGame game = new BlackJackGame();
+
+		Card card_four = new Card(4);
+
+		game.addDealerCard(card_four);
+		fakeHand.add(card_four);
+
+		assert(game.getDealerHand() == fakeHand.get(0).getCardNumber() );
+	}
+
+
+	@Test
 	public void testDrawCard(){
 		ArrayList<Card> fakeHand = new ArrayList<Card>();
 
@@ -61,7 +76,7 @@ public class BlackJackGameTest{
 		assert(fakeHand.get(2).getCardNumber() == 2);
 		assert(fakeHand.size() == 4);
 		assert(fakeHand.get(3).getCardNumber() > 0);
-		assert(fakeHand.get(3).getCardNumber() <= 10);
+		assert(fakeHand.get(3).getCardNumber() <= 13);
 
 		int winner = game.compareHands();
 		assert(winner == -1);
